@@ -20,7 +20,7 @@ iso:
                            mtools syslinux isolinux gcc-arm-none-eabi git make gcc liblzma-dev mkisofs xorriso
                            # jq docker
     WORKDIR /build
-    ARG ISO_NAME=${OS_ID}
+    ARG ISO_NAME=ipxe-dhcp
     COPY +version/VERSION ./
     ARG VERSION=$(cat VERSION)
 
