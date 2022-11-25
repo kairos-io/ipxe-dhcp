@@ -1,0 +1,35 @@
+name: Build image
+
+on: 
+ push:
+   branches:
+     - main
+ pull_request:
+
+concurrency:
+  group: ci-image-${{ github.head_ref || github.ref }}-${{ github.repository }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # OIDC support
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git fetch --prune --unshallow
+      - name: setup-docker
+        uses: docker-practice/actions-setup-docker@master
+      - name: Build  🔧
+        run: |
+          ./earthly.sh +iso
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ipxe-artifacts.zip
+          path: |
+            build/*
+          if-no-files-found: error
+ 
