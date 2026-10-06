@@ -26,8 +26,8 @@ iso:
 
     RUN git clone https://github.com/ipxe/ipxe
 
-    RUN cd ipxe/src && \
-        sed -i 's/#undef\tDOWNLOAD_PROTO_HTTPS/#define\tDOWNLOAD_PROTO_HTTPS/' config/general.h && \
-        make EMBED=/build/boot.ipxe
+    COPY ipxe-config/general.h ipxe/src/config/local/general.h
+
+    RUN cd ipxe/src && make EMBED=/build/boot.ipxe
     SAVE ARTIFACT /build/ipxe/src/bin/ipxe.iso iso AS LOCAL build/${ISO_NAME}.iso
     SAVE ARTIFACT /build/ipxe/src/bin/ipxe.usb usb AS LOCAL build/${ISO_NAME}-usb.img
