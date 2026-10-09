@@ -1,0 +1,11 @@
+# ipxe-config/general.h is iPXE build configuration, not source this
+# repository compiles. The Earthfile copies it into a fresh upstream clone at
+# ipxe/src/config/local/general.h and iPXE's own build includes it from there.
+#
+# Left detectable it is the only C in the repository, and CodeQL default setup
+# answers that by adding a c-cpp analysis. That analysis cannot run: the
+# buildless extractor indexes one header file and no translation unit, and
+# exits with "Extraction failed: No source files found".
+#
+# See kairos-io/kairos#5365.
+ipxe-config/** linguist-vendored
