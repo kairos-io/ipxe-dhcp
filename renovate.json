@@ -14,5 +14,20 @@
       "matchUpdateTypes": ["patch"],
       "automerge": true
     }
+  ],
+  "customManagers": [
+    {
+      "description": "The Earthfile builds the published ISO from a pinned iPXE commit. Without this manager the pin never moves. A digest update is not a patch update, so it is not auto-merged and the Build image job gets to prove the new commit still builds.",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^Earthfile$/"
+      ],
+      "matchStrings": [
+        "ARG IPXE_REF=(?<currentDigest>[0-9a-f]{40})"
+      ],
+      "depNameTemplate": "https://github.com/ipxe/ipxe",
+      "currentValueTemplate": "master",
+      "datasourceTemplate": "git-refs"
+    }
   ]
 }

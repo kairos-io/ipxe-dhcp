@@ -4,9 +4,12 @@
  * iPXE includes config/local/general.h as the last line of
  * config/general.h, after the per-platform overrides, so a setting here
  * is the final word and survives upstream reformatting of the defaults.
- * The clone in the Earthfile is not pinned, so that matters: the sed this
- * file replaces silently stopped matching when iPXE rewrote
- * config/general.h on 2026-01-16, and the published ISO lost HTTPS.
+ * That mattered once already: the sed this file replaces silently
+ * stopped matching when iPXE rewrote config/general.h on 2026-01-16,
+ * and the published ISO lost HTTPS. The clone is now pinned to a
+ * commit as well, through IPXE_REF in the Earthfile, but the pin moves
+ * when Renovate bumps it, so the override still has to survive an
+ * upstream rewrite on its own.
  *
  * See https://ipxe.org/buildcfg and kairos-io/kairos#5250.
  */

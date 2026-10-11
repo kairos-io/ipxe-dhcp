@@ -24,7 +24,17 @@ iso:
     COPY +version/VERSION ./
     ARG VERSION=$(cat VERSION)
 
-    RUN git clone https://github.com/ipxe/ipxe
+    # The clone is pinned so that a build of this commit always produces the
+    # same binaries, and so that a change upstream cannot alter the published
+    # image without a commit here. iPXE rewrote src/config/general.h on
+    # 2026-01-16 and the published image silently lost HTTPS support, which is
+    # kairos-io/kairos#5250. Renovate bumps IPXE_REF through the custom manager
+    # in renovate.json.
+    # renovate: datasource=git-refs depName=https://github.com/ipxe/ipxe
+    ARG IPXE_REF=c86730a30547823e73a363d903a1510a4664a9b1
+
+    RUN git clone https://github.com/ipxe/ipxe && \
+        git -C ipxe checkout --detach "${IPXE_REF}"
 
     COPY ipxe-config/general.h ipxe/src/config/local/general.h
 
